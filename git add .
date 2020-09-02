@@ -1,0 +1,104 @@
+[1mdiff --git a/Gemfile b/Gemfile[m
+[1mindex ce151cb..80f0c6b 100644[m
+[1m--- a/Gemfile[m
+[1m+++ b/Gemfile[m
+[36m@@ -1,7 +1,7 @@[m
+ source 'https://rubygems.org'[m
+ git_source(:github) { |repo| "https://github.com/#{repo}.git" }[m
+ [m
+[31m-ruby '2.6.3'[m
+[32m+[m[32mruby '2.5.3'[m
+ [m
+ # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'[m
+ gem 'rails', '~> 5.2.2'[m
+[1mdiff --git a/Gemfile.lock b/Gemfile.lock[m
+[1mindex e63dc6c..dc0a47e 100644[m
+[1m--- a/Gemfile.lock[m
+[1m+++ b/Gemfile.lock[m
+[36m@@ -182,7 +182,7 @@[m [mDEPENDENCIES[m
+   web-console (>= 3.3.0)[m
+ [m
+ RUBY VERSION[m
+[31m-   ruby 2.6.3p62[m
+[32m+[m[32m   ruby 2.5.3p105[m
+ [m
+ BUNDLED WITH[m
+    1.17.3[m
+[1mdiff --git a/app/controllers/tasks_controller.rb b/app/controllers/tasks_controller.rb[m
+[1mindex c1e4bec..6403ddb 100644[m
+[1m--- a/app/controllers/tasks_controller.rb[m
+[1m+++ b/app/controllers/tasks_controller.rb[m
+[36m@@ -12,7 +12,7 @@[m [mclass TasksController < ApplicationController[m
+   end[m
+ [m
+   def create[m
+[31m-    @task = Task.new(message_params)[m
+[32m+[m[32m    @task = Task.new(task_params)[m
+ [m
+     if @task.save[m
+       flash[:success] = 'Task が正常に追加されました'[m
+[36m@@ -44,6 +44,13 @@[m [mclass TasksController < ApplicationController[m
+     @task.destroy[m
+ [m
+     flash[:success] = 'Task は正常に削除されました'[m
+[31m-    redirect_to messages_url[m
+[32m+[m[32m    redirect_to tasks_url[m
+   end[m
+ end[m
+[32m+[m
+[32m+[m[32mprivate[m
+[32m+[m
+[32m+[m[32m  # Strong Parameter[m
+[32m+[m[32m  def task_params[m
+[32m+[m[32m    params.require(:task).permit(:content)[m
+[32m+[m[32m  end[m
+\ No newline at end of file[m
+[1mdiff --git a/app/views/tasks/edit.html.erb b/app/views/tasks/edit.html.erb[m
+[1mindex e620c94..a57b72f 100644[m
+[1m--- a/app/views/tasks/edit.html.erb[m
+[1m+++ b/app/views/tasks/edit.html.erb[m
+[36m@@ -7,4 +7,4 @@[m
+   <%= f.submit '追加' %>[m
+ <% end %>[m
+ [m
+[31m-<%= link_to '一覧に戻る', messages_path %>[m
+\ No newline at end of file[m
+[32m+[m[32m<%= link_to '一覧に戻る', tasks_path %>[m
+\ No newline at end of file[m
+[1mdiff --git a/app/views/tasks/index.html.erb b/app/views/tasks/index.html.erb[m
+[1mindex 9e09553..9eda72a 100644[m
+[1m--- a/app/views/tasks/index.html.erb[m
+[1m+++ b/app/views/tasks/index.html.erb[m
+[36m@@ -6,4 +6,4 @@[m
+   <% end %>[m
+ </ul>[m
+ [m
+[31m-<%= link_to '新規タスクの追加', new_message_path %>[m
+\ No newline at end of file[m
+[32m+[m[32m<%= link_to '新規タスクの追加', new_task_path %>[m
+\ No newline at end of file[m
+[1mdiff --git a/app/views/tasks/new.html.erb b/app/views/tasks/new.html.erb[m
+[1mindex 78f0af6..3dbe762 100644[m
+[1m--- a/app/views/tasks/new.html.erb[m
+[1m+++ b/app/views/tasks/new.html.erb[m
+[36m@@ -7,4 +7,4 @@[m
+   <%= f.submit '追加' %>[m
+ <% end %>[m
+ [m
+[31m-<%= link_to '一覧に戻る', messages_path %>[m
+\ No newline at end of file[m
+[32m+[m[32m<%= link_to '一覧に戻る', tasks_path %>[m
+\ No newline at end of file[m
+[1mdiff --git a/app/views/tasks/show.html.erb b/app/views/tasks/show.html.erb[m
+[1mindex 4f81f4b..03cdf74 100644[m
+[1m--- a/app/views/tasks/show.html.erb[m
+[1m+++ b/app/views/tasks/show.html.erb[m
+[36m@@ -2,6 +2,6 @@[m
+ [m
+ <p><%= @task.content %></p>[m
+ [m
+[31m-<%= link_to '一覧に戻る', messages_path %>[m
+[32m+[m[32m<%= link_to '一覧に戻る', tasks_path %>[m
+ <%= link_to 'このタスクを編集する', edit_task_path(@task) %>[m
+ <%= link_to 'このタスクを削除する', @task, method: :delete, data: { confirm: '本当に削除してよろしいですか？' } %>[m
+\ No newline at end of file[m
