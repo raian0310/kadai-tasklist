@@ -31,10 +31,10 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
 
     if @task.update(task_params)
-      flash[:success] = 'Task が正常に追加されました'
+      flash[:success] = 'Task が正常に更新されました'
       redirect_to @task
     else
-      flash.now[:danger] = 'Task が追加されませんでした'
+      flash.now[:danger] = 'Task が更新されませんでした'
       render :edit
     end
   end
